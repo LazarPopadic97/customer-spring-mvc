@@ -17,7 +17,6 @@
             <form:hidden path="cityCode" />
             <div>
                 ${errorMessage}
-                ${successMessage}
             </div>
 
             <table>

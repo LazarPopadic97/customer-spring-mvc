@@ -17,59 +17,57 @@
 
     <body>
 
-        <div id="wrapper">
-            <div id="header">
-                <h2>List of Cities </h2>
-            </div>
-        </div>
+
+        <h2>List of Cities </h2>
+
         ${successMessage}
 
-        <div id="container">
-
-            <div id="content">
-
-                <table>
-                    <tr>
-                        <th>Code</th>
-                        <th>Name</th>
-                    </tr>
-
-                    <!-- loop over and print our customers -->
-                    <c:forEach var="cityDto" items="${cities}">
-
-                        <!--
-                        <!-- construct an "update" link with customer id -->
-                        <c:url var="updateLink" value="/city/showFormForUpdate">
-                            <c:param name="cityCode" value="${cityDto.code}" />
-                        </c:url>
-
-                        <!-- construct an "delete" link with customer id -->
-                        <c:url var="deleteLink" value="/city/delete">
-                            <c:param name="cityCode" value="${cityDto.code}" />
-                        </c:url>
 
 
-                        <tr>
-                            <td> ${cityDto.code} </td>
-                            <td> ${cityDto.name} </td>
 
-                            <td>
-                                <!-- display the update link -->
-                                <a href="${updateLink}">Update</a>
-                                |
-                                <a href="${deleteLink}"
-                                   onclick="if (!(confirm('Are you sure you want to delete this city?')))
-                                               return false">Delete</a>
-                            </td>
 
-                        </tr>
+        <table>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+            </tr>
 
-                    </c:forEach>
+            <!-- loop over and print our customers -->
+            <c:forEach var="cityDto" items="${cities}">
 
-                </table>
+                <!--
+                <!-- construct an "update" link with customer id -->
+                <c:url var="updateLink" value="/city/showFormForUpdate">
+                    <c:param name="cityCode" value="${cityDto.code}" />
+                </c:url>
 
-            </div>
+                <!-- construct an "delete" link with customer id -->
+                <c:url var="deleteLink" value="/city/delete">
+                    <c:param name="cityCode" value="${cityDto.code}" />
+                </c:url>
 
-        </div>
+
+                <tr>
+                    <td> ${cityDto.code} </td>
+                    <td> ${cityDto.name} </td>
+
+                    <td>
+                        <!-- display the update link -->
+                        <a href="${updateLink}">Update</a>
+                        |
+                        <a href="${deleteLink}"
+                           onclick="if (!(confirm('Are you sure you want to delete this city?')))
+                                       return false">Delete</a>
+                    </td>
+
+                </tr>
+
+            </c:forEach>
+
+        </table>
+
+
+
+
     </body>
 </html>

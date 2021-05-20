@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import rs.fon.silab.application.customerspringmvc.domain.City;
+import org.springframework.web.servlet.ModelAndView;
 import rs.fon.silab.application.customerspringmvc.dto.CityDto;
 import rs.fon.silab.application.customerspringmvc.service.CityService;
 
@@ -32,11 +32,12 @@ public class CityController {
     }
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public String getAll(HttpServletRequest request) throws Exception {
+    public ModelAndView getAll() throws Exception {
         System.out.println("rs.fon.silab.application.customerspringmvc.controller.CityController.getAll()");
         List<CityDto> cities = cityService.getAll();
-        request.setAttribute("cities", cities);
-        return "city-list";
+        ModelAndView modelAndView = new ModelAndView("city-list");
+        modelAndView.addObject("cities", cities);
+        return modelAndView;
     }
 
     @RequestMapping(path = "/add", method = RequestMethod.GET)
@@ -88,42 +89,39 @@ public class CityController {
     }
 
     @RequestMapping(path = "/save-object", method = RequestMethod.POST)
-    public String saveObject(HttpServletRequest request,
-            CityDto cityDto) {
+    public ModelAndView saveObject(CityDto cityDto) {
         System.out.println("==============save=================");
+        ModelAndView modelAndView = new ModelAndView("city-add-model");
         try {
             System.out.println(cityDto);
             //sacuvaj grad
             cityService.save(cityDto);
-
-            request.setAttribute("successMessage", "Grad uspesno sacuvan");
-            
-            return "city-add";
+            modelAndView.addObject("successMessage", "Grad je uspesno sacuvan");
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Grad nije sacuvan, proverite unete podatke");
-            return "city-add";
+            modelAndView.addObject("errorMessage", "Grad nije sacuvan, proverite unete podatke");
         }
+        return modelAndView;
     }
 
     @RequestMapping(path = "/showFormForUpdate", method = RequestMethod.GET)
-    public String showFormForUpdate(@RequestParam("cityCode") Long cityCode,
-            HttpServletRequest request) {
+    public ModelAndView showFormForUpdate(@RequestParam("cityCode") Long cityCode) {
 
         System.out.println(cityCode);
         CityDto city = cityService.getByCode(cityCode);
+        ModelAndView modelAndView = new ModelAndView("city-add-model");
+        modelAndView.addObject("cityDto", city);
 
-        request.setAttribute("cityDto", city);
-
-        return "city-add-model";
+        return modelAndView;
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.GET)
-    public String deleteCity(@RequestParam("cityCode") Long cityCode, HttpServletRequest request) throws Exception {
+    public ModelAndView deleteCity(@RequestParam("cityCode") Long cityCode) throws Exception {
 
         cityService.deleteCity(cityCode);
         List<CityDto> cities = cityService.getAll();
-        request.setAttribute("cities", cities);
-        return "city-list";
+        ModelAndView modelAndView = new ModelAndView("city-list");
+        modelAndView.addObject("cities", cities);
+        return modelAndView;
     }
 }
